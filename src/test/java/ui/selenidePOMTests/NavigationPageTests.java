@@ -3,6 +3,8 @@ package ui.selenidePOMTests;
 import io.qameta.allure.Step;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 import pageObjects.selenide.HomePage;
 import pageObjects.selenide.NavigationPage;
 
@@ -26,11 +28,12 @@ class NavigationPageTests extends BaseTestSettings {
     }
 
     @Step("Click the next button test")
-    @Test
-    void nextButtonTest() {
+    @ParameterizedTest
+    @ValueSource(ints = {3, 2, 1})
+    void nextButtonTest(int pageNumber) {
         homePage.open();
         NavigationPage navigationPage = homePage.openNavigationPage();
-        int pageNumber = 3;
+//        int pageNumber = 3;
 
         for (int i = 1; i < pageNumber; i++) {
             navigationPage.clickNextButton();
