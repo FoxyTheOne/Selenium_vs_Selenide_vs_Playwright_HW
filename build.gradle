@@ -1,0 +1,35 @@
+plugins {
+    id 'java'
+    id("io.qameta.allure") version "2.12.0"
+}
+
+group = 'org.mycompany'
+version = '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testImplementation platform('org.junit:junit-bom:5.10.0')
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+    // AssertJ ( assertThat etc )
+    implementation 'org.assertj:assertj-core:3.27.3'
+    // Owner for property files
+    testImplementation 'org.aeonbits.owner:owner:1.0.12'
+    // Selenide
+    implementation 'com.codeborne:selenide:7.9.1'
+    // Allure-junit5 + добавить плагин
+    implementation 'io.qameta.allure:allure-junit5:2.29.1'
+    // For CloseableHttpClient
+    implementation 'org.apache.httpcomponents.client5:httpclient5:5.3.1'
+    // https://mvnrepository.com/artifact/org.aspectj/aspectjweaver - без этого не работала модель POM
+    runtimeOnly 'org.aspectj:aspectjweaver:1.9.23'
+    // Playwright
+    implementation 'com.microsoft.playwright:playwright:1.43.0'
+}
+
+test {
+    useJUnitPlatform()
+    systemProperties(System.getProperties())
+}
