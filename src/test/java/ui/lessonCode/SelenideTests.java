@@ -1,4 +1,4 @@
-package ui;
+package ui.lessonCode;
 
 import com.codeborne.selenide.*;
 import config.ITestPropertiesConfig;

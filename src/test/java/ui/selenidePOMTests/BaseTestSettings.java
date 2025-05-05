@@ -1,4 +1,4 @@
-package ui.SelenidePOMTests;
+package ui.selenidePOMTests;
 
 import config.ITestPropertiesConfig;
 import org.aeonbits.owner.ConfigFactory;

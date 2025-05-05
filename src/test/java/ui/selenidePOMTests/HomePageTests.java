@@ -1,4 +1,4 @@
-package ui.SelenidePOMTests;
+package ui.selenidePOMTests;
 
 import constants.CommonConstants;
 import org.junit.jupiter.api.BeforeEach;

@@ -1,4 +1,4 @@
-package ui.SelenidePOMTests;
+package ui.selenidePOMTests;
 
 import io.qameta.allure.Step;
 import org.junit.jupiter.api.BeforeEach;

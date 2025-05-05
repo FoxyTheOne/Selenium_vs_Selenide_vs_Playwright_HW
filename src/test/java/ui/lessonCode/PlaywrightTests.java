@@ -1,4 +1,4 @@
-package ui;
+package ui.lessonCode;
 
 import com.microsoft.playwright.*;
 import com.microsoft.playwright.assertions.PlaywrightAssertions;
