@@ -11,6 +11,8 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import pageObjects.selenide.HomePage;
@@ -18,8 +20,11 @@ import pageObjects.selenide.WebFormPage;
 import steps.AllureSteps;
 
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.time.Duration;
 import java.util.List;
+import java.util.Map;
 
 import static com.codeborne.selenide.CollectionCondition.size;
 import static com.codeborne.selenide.Condition.attributeMatching;
@@ -44,6 +49,7 @@ class SelenideTests {
         if (!config.isRemote()) {
             System.setProperty("webdriver.chrome.driver", "src/test/resources/chromedriver.exe");
         }
+        initDriver();
     }
 
     // AfterEach для закрытия браузера нам не нужен, т.к. в селениде он закрывается автоматически
@@ -158,5 +164,29 @@ class SelenideTests {
         webFormPage.submitForm();
 
         Assertions.assertThat(url()).contains("https://bonigarcia.dev/selenium-webdriver-java/submitted-form.html");
+    }
+
+    // Selenium code:
+    private void initDriver() {
+        String remoteUrl = System.getenv("SELENIUM_REMOTE_URL");
+        if (remoteUrl != null) {
+            WebDriver driver;
+            ChromeOptions options = new ChromeOptions();
+            options.addArguments("--headless");  // Add headless mode
+            options.addArguments("--disable-gpu"); // Switch off GPU, because we don't need it in headless mode
+            options.addArguments("--no-sandbox"); // Switch off sandbox to prevent access rights issues
+            options.addArguments("--disable-dev-shm-usage"); // Use /tmp instead of /dev/shm
+            options.setCapability("goog:loggingPrefs", Map.of("browser", "ALL"));
+            try {
+                driver = new RemoteWebDriver(new URL(remoteUrl), options);
+            } catch (MalformedURLException e) {
+                throw new RuntimeException("Malformed URL for Selenium Remote WebDriver", e);
+            }
+            driver.manage().window().maximize();
+        } else {
+//            Selenide настраивает драйвер по умолчанию, поэтому здесь нам это не нужно
+//            driver = new ChromeDriver();
+        }
+//        driver.manage().window().maximize();
     }
 }
