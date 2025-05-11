@@ -31,9 +31,6 @@ class NavigationPageTests extends BaseTestSettings {
     @Step("Open Navigation page test")
     @Test
     void openNavigationTest() throws InterruptedException {
-//        homePage.open();
-//        NavigationPage navigationPage = homePage.openNavigationPage();
-
         navigationPage.checkIsNavigationPage();
     }
 
