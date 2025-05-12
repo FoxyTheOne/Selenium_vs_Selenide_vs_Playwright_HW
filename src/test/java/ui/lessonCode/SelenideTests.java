@@ -50,6 +50,7 @@ class SelenideTests {
         if (!config.isRemote()) {
             System.setProperty("webdriver.chrome.driver", "src/test/resources/chromedriver.exe");
         }
+        initDriver();
     }
 
     // AfterEach для закрытия браузера нам не нужен, т.к. в селениде он закрывается автоматически
@@ -165,4 +166,50 @@ class SelenideTests {
 
         Assertions.assertThat(url()).contains("https://bonigarcia.dev/selenium-webdriver-java/submitted-form.html");
     }
+
+    private void initDriver() {
+        String remoteUrl = System.getenv("SELENIUM_REMOTE_URL");
+        if (remoteUrl != null && !remoteUrl.isEmpty()) {
+            Allure.addAttachment("remote", remoteUrl);
+            ChromeOptions options = new ChromeOptions();
+            options.addArguments(
+                    "--headless=new",// Новый headless режим
+                    "--disable-gpu",
+                    "--no-sandbox",
+                    "--disable-dev-shm-usage",
+                    "--user-data-dir=/tmp/chrome"// Фиксированная временная директория
+            );
+            options.setCapability("goog:loggingPrefs", Map.of("browser", "ALL"));
+
+            Configuration.remote = remoteUrl;
+            Configuration.browserCapabilities = options;
+        }
+    }
+
+//    // Selenium code:
+//    private void initDriver() {
+//        String remoteUrl = System.getenv("SELENIUM_REMOTE_URL");
+//        if (remoteUrl != null) {
+//            if (!remoteUrl.isEmpty()) {
+//                WebDriver driver;
+//                Allure.addAttachment("remote", remoteUrl);
+//                ChromeOptions options = new ChromeOptions();
+//                options.addArguments("--headless");  // Add headless mode
+//                options.addArguments("--disable-gpu"); // Switch off GPU, because we don't need it in headless mode
+//                options.addArguments("--no-sandbox"); // Switch off sandbox to prevent access rights issues
+//                options.addArguments("--disable-dev-shm-usage"); // Use /tmp instead of /dev/shm
+//                options.setCapability("goog:loggingPrefs", Map.of("browser", "ALL"));
+//                try {
+//                    driver = new RemoteWebDriver(new URL(remoteUrl), options);
+//                } catch (MalformedURLException e) {
+//                    throw new RuntimeException("Malformed URL for Selenium Remote WebDriver", e);
+//                }
+//                driver.manage().window().maximize();
+//            }
+//        } else {
+////            Selenide настраивает драйвер по умолчанию, поэтому здесь нам это не нужно
+////            driver = new ChromeDriver();
+//        }
+////        driver.manage().window().maximize();
+//    }
 }

@@ -41,17 +41,6 @@ jobs:
     - name: Grant execute permission for Gradle
       run: chmod +x gradlew
 
-    - name: Wait for Selenium
-      run: |
-        for i in {1..10}; do
-          if nc -z localhost 4444; then
-            echo "Selenium ready!"
-            exit 0
-          fi
-          sleep 5
-        done
-        exit 1
-
     - name: Build with Gradle Wrapper
       env:
         SELENIUM_REMOTE_URL: http://localhost:4444/wd/hub
