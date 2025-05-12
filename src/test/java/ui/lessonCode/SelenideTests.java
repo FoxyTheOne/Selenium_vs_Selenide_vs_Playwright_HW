@@ -13,7 +13,6 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeOptions;
-import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import pageObjects.selenide.HomePage;
@@ -21,8 +20,6 @@ import pageObjects.selenide.WebFormPage;
 import steps.AllureSteps;
 
 import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.time.Duration;
 import java.util.List;
 import java.util.Map;
@@ -168,16 +165,15 @@ class SelenideTests {
     }
 
     private void initDriver() {
-        String remoteUrl = System.getenv("SELENIUM_REMOTE_URL");
+        String remoteUrl = System.getenv("SELENIDE_REMOTE_URL");
         if (remoteUrl != null && !remoteUrl.isEmpty()) {
             Allure.addAttachment("remote", remoteUrl);
             ChromeOptions options = new ChromeOptions();
             options.addArguments(
-                    "--headless=new",// Новый headless режим
+                    "--headless",
                     "--disable-gpu",
                     "--no-sandbox",
-                    "--disable-dev-shm-usage",
-                    "--user-data-dir=/tmp/chrome"// Фиксированная временная директория
+                    "--disable-dev-shm-usage"
             );
             options.setCapability("goog:loggingPrefs", Map.of("browser", "ALL"));
 
@@ -207,9 +203,8 @@ class SelenideTests {
 //                driver.manage().window().maximize();
 //            }
 //        } else {
-////            Selenide настраивает драйвер по умолчанию, поэтому здесь нам это не нужно
-////            driver = new ChromeDriver();
+//            driver = new ChromeDriver();
 //        }
-////        driver.manage().window().maximize();
+//        driver.manage().window().maximize();
 //    }
 }
