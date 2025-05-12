@@ -1,16 +1,8 @@
 package ui.selenidePOMTests;
 
 import config.ITestPropertiesConfig;
-import io.qameta.allure.Allure;
 import org.aeonbits.owner.ConfigFactory;
 import org.junit.jupiter.api.BeforeEach;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
-import org.openqa.selenium.remote.RemoteWebDriver;
-
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.Map;
 
 public class BaseTestSettings {
     ITestPropertiesConfig config = ConfigFactory.create(ITestPropertiesConfig.class, System.getProperties());
