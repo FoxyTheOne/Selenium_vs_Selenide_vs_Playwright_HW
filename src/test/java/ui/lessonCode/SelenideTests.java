@@ -170,10 +170,11 @@ class SelenideTests {
             Allure.addAttachment("remote", remoteUrl);
             ChromeOptions options = new ChromeOptions();
             options.addArguments(
-                    "--headless",
+                    "--headless=new",// Новый headless режим
                     "--disable-gpu",
                     "--no-sandbox",
-                    "--disable-dev-shm-usage"
+                    "--disable-dev-shm-usage",
+                    "--user-data-dir=/tmp/chrome"  // Фиксированная временная директория
             );
             options.setCapability("goog:loggingPrefs", Map.of("browser", "ALL"));
 
